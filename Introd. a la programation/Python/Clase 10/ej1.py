@@ -23,10 +23,10 @@ class Estudiante:
         self.notas = notas
     
     def promedio(self):
-        print(f"Promedio: {sum(notas)/len(notas)}")
+        print(f"Promedio: {sum(self.notas)/len(self.notas)}")
     
     def promedioAprobado(self):
-        if promedio() >= 6:
+        if sum(self.notas)/len(self.notas) >= 6:
             return True
 
 class CuentaMacro:
