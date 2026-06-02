@@ -7,7 +7,7 @@ class Persona:
         print(f"Hola, mi nombre es {self.nombre} y tengo {self.edad} años.")
 
 class Rectangulo:
-    def __init__(self,base,altura):
+    def __init__(self,base = 1,altura = 1):
         self.base = base
         self.altura = altura
     
@@ -26,7 +26,7 @@ class Estudiante:
         print(f"Promedio: {sum(self.notas)/len(self.notas)}")
     
     def promedioAprobado(self):
-        if sum(self.notas)/len(self.notas) >= 6:
+        if self.promedio() >= 6:
             return True
 
 class CuentaMacro:
