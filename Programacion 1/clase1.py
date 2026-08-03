@@ -46,7 +46,7 @@ def ordenarLista(lista):
 
     return lista
 
-def ordenarYSumarListas(M, N):
+def sumarListas(M, N):
     M = ordenarLista(list(M))
     N = ordenarLista(list(N))
 
@@ -54,4 +54,56 @@ def ordenarYSumarListas(M, N):
 
     print(ordenarLista(MN))
 
-ordenarYSumarListas([1,5,6,3],[2,4,8,7])
+# sumarListas([1,5,6,3],[2,4,8,7])
+
+def listaAlumnos():
+    lista = []
+
+    while True:
+        nombre = (str(input("\nNombre (fin para finalizar): ")))
+        nombre = nombre.capitalize()
+
+        if nombre == 'Fin':
+            for i in range(len(lista)):
+                print(f"{i+1:02d} {lista[i]}")
+            break
+
+        lista.append(nombre)
+        print("\033[32mAlumno agregado correctamente.\033[0m")
+
+# listaAlumnos()
+
+def listaDeItems():
+    alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    lista = []
+    largoLista = random.randint(5, 10)
+    for x in range(0, largoLista):
+        lista.append(random.choice(alfabeto))
+    return lista
+
+def unionListas():
+    lista = listaDeItems()
+    liste = listaDeItems()
+
+    listo = list(set(lista).intersection(liste))
+    print(lista,liste,listo)
+
+# unionListas()
+
+def listaDeItemsModificado():
+    lista = []
+    largoLista = random.randint(1,20)
+    for x in range(0, largoLista):
+        lista.append(random.randint(0,9))
+    return lista
+
+def unionListasModificado():
+    lista = listaDeItemsModificado()
+    liste = listaDeItemsModificado()
+
+    listo = list(set(lista).intersection(liste))
+    print(lista,liste,listo)
+
+# Para evitar que la tercera lista muestre duplicados se usa la funcion set(). O simplemente eliminar uno de los repetidos con count(), index() y pop().
+
+# unionListasModificado()
