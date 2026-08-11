@@ -11,19 +11,21 @@ class Celda:
 
     def __str__(self):
         return f'{self.valor}'
-
 class Tablero:
-    def __init__(self, ladoMaximo:int):
+    def __init__(self, ladoMaximo:int,cantidad:int):
         self.ladoMaximo = ladoMaximo
         self.tablero = []
+        self.cantidad=cantidad
         self.crear()
-        self.distribuirNaufragos(4)
+        
 
     def crear(self):
         self.tablero = [
             [Celda(columna, fila, '🌊') for columna in range(self.ladoMaximo)]
             for fila in range(self.ladoMaximo)
             ]
+        
+        self.distribuirNaufragos(self.cantidad)
 
     def mostrar(self):
         numeros = "   " + " ".join(f"{columna:2d}" for columna in range(1, self.ladoMaximo + 1))
@@ -39,9 +41,9 @@ class Tablero:
     def hayNaufrago(self, fila:int, columna:int):
         return self.tablero[fila -1][columna-1].naufrago
 
-    def distribuirNaufragos(self, cantidad:int):
+    def distribuirNaufragos(self, cantidad):
         colocados = 0
-
+        Naufrago.PosicionValida(columna,fila,self.tablero,self.hayNaufrago)
         while colocados < cantidad:
             fila = random.randint(0, self.ladoMaximo - 1)
             columna = random.randint(0, self.ladoMaximo - 1)
@@ -80,7 +82,24 @@ class Sonda:
                 
 
 class Naufrago:
-    pass
+    def __init__(self, fila: int, columna: int, rescatado: bool = False):
+        self.fila = fila
+        self.columna = columna
+        self.rescatado = rescatado
+
+    def PosicionValida(self, columna: int, fila: int, tablero: Tablero, haynaufrago: bool = False):
+        posiciones = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
+
+        for delta_fila, delta_columna in posiciones:
+            fila_vecina = fila + delta_fila
+            columna_vecina = columna + delta_columna
+
+            if 0 <= fila_vecina < tablero.ladoMaximo and 0 <= columna_vecina < tablero.ladoMaximo:
+                celda = tablero.tablero[fila_vecina][columna_vecina]
+                if celda.naufrago:
+                    return True
+
+        return False
 
 def naufrago(dificultad):            
 
@@ -88,16 +107,18 @@ def naufrago(dificultad):
         case 'facil':
             intentos = 10
             ladoMaximo = 6
+            cantidadNaufragos=4
         case 'intermedio':
             intentos = 15
             ladoMaximo = 8
+            cantidadNaufragos=8
         case 'dificil':
             intentos = 20
             ladoMaximo = 10
-
+            cantidadNaufragos=11
     encontro = False
 
-    tablero = Tablero(ladoMaximo)
+    tablero = Tablero(ladoMaximo,cantidadNaufragos)
 
 
     while intentos > 0:
