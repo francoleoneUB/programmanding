@@ -1,5 +1,4 @@
-# Generar una lista con los números del 1 al 10 elevados al cuadrado
-# usando listas por comprensión y mostrarla por pantalla
+import time
 
 def primerEjercicio():
     print(f"Primer ejercicio: {[i**2 for i in range(1,11)]}")
@@ -48,6 +47,13 @@ def novenoEjercicio(lista):
 novenoEjercicio([1,2,3,4,5,6,7,8,9,10])
 
 def desafio():
+    colectivos = [
+        [60,143,36,True],
+        [60,41,36,True],
+        [60,97,38,False],
+        [130,23,41,False],
+                  ]
+
     def chequearNumero(placeholder:str):
         while True:
             numero = input(placeholder)
@@ -55,30 +61,81 @@ def desafio():
             try:
                 return int(numero)
             except:
-                print("Ingrese una opcion valida")
+                print("\n \033[31mSolo se permiten valores numericos.\033[0m")
+                time.sleep(0.5)
 
-    def chequearString(placeholder:str):
+    def chequearSiONo(placeholder:str):
         while True:
             string = (input(placeholder)).lower()
 
             if isinstance(placeholder, str):
-                return string
+                if string == 'si':
+                    return True
+                elif string == 'no':
+                    return False
 
     def agregarColectivo():
-        numeroLinea = chequearNumero("Ingrese el numero de linea del colectivo: ")
-        numeroInterno = chequearNumero("Ingrese el numero interno del colectivo: ")
-        numeroAsientos = chequearNumero("Ingrese el numero de asientos: ")
-        accesibilidad = chequearString("El colectivo es apto para discapacitados? (Si/No): ")
+        numeroLinea    = chequearNumero("\nIngrese el numero de linea del colectivo: ")
+        numeroInterno  = chequearNumero("\nIngrese el numero interno del colectivo: ")
+        numeroAsientos = chequearNumero("\nIngrese el numero de asientos: ")
+        accesibilidad  = chequearSiONo("\nEl colectivo es apto para discapacitados? (Si/No): ")
+
+        colectivos.append([numeroLinea, numeroInterno, numeroAsientos, accesibilidad])
+
+    def eliminarColectivo():
+        numeroLinea    = chequearNumero("\nIngrese el numero de linea del colectivo: ")
+        numeroInterno  = chequearNumero("\nIngrese el numero interno del colectivo: ")
+
+        for i in colectivos:
+            if i[0] == numeroLinea and i[1] == numeroInterno:
+                colectivos.remove(i)
+                print(f'\nListo! Colectivo {numeroInterno} de la linea {numeroLinea} eliminado.')
+                time.sleep(1)
+                return
+
+        print('No se encontro un colectivo con esos numeros')
+
+    def mostrarColectives():
+        numeroLinea    = chequearNumero("\nIngrese el numero de linea del colectivo: ")
+
+        for i in colectivos[:]:
+            if i[0] == numeroLinea:
+                print(i)
+
+        time.sleep(1)
+
+    def accesibilidadPorLinea():
+        numeroLinea    = chequearNumero("\nIngrese el numero de linea del colectivo: ")
+        total = 0
+
+        for i in colectivos:
+            if i[0] == numeroLinea and i[3] == True:
+                total += 1
+
+        print(f'\nHay un total de {total} colectivos pro-discapacidad')
+        time.sleep(1)
+
+    def asientosMas27():
+        numeroLinea    = chequearNumero("\nIngrese el numero de linea del colectivo: ")
+        total = 0
+
+        for i in colectivos:
+            if i[0] == numeroLinea and i[2] > 27:
+                total += 1
+
+        print(f'\nHay un total de {total} con mas de 27 asientos')
+        time.sleep(1)
 
     while True:
         print("""
 menu colectivero
 
 1. Agregar colectivos
-2. Eliminar colectivos por línea e ingreso*
+2. Eliminar colectivos por línea e interno*
 3. Mostrar colectivos de una línea ordenados por ingreso
 4. Informar cuántos colectivos aptos para personas con discapacidad hay por línea
 5. Informar cuántos colectivos con más de 27 asientos hay por línea
+
 q. Salir
 """)
 
@@ -88,17 +145,13 @@ q. Salir
             case "1":
                 agregarColectivo()
             case "2":
-                #eliminarColectivo()
-                pass
+                eliminarColectivo()
             case "3":
-                #mostrarColectivos()
-                pass
+                mostrarColectives()
             case "4":
-                #accesibilidadPorColectivo()
-                pass
+                accesibilidadPorLinea()
             case "5":
-                #asientosMas27()
-                pass
+                asientosMas27()
             case "q":
                 break
             case _:
