@@ -50,7 +50,7 @@ def crearMapa(dificultad) -> list:
     for fila in range(filas)]
 
     global mapa_Visible
-    mapa_Visible = [[Celda(columna, fila, '🟦') for columna in range(columnas)]
+    mapa_Visible = [[Celda(columna, fila, '■') for columna in range(columnas)]
     for fila in range(filas)]
 
     colocados = 0
@@ -67,7 +67,7 @@ def crearMapa(dificultad) -> list:
 
 def mostrar(mapa):
     time.sleep(1)
-    numeros = "   " + " ".join(f"{columna:2d}" for columna in range(1, columnas + 1))
+    numeros = "  " + "".join(f"{columna:2d}" for columna in range(1, columnas + 1))
     print(numeros)
 
     for indice, fila in enumerate(mapa, start=1):
@@ -83,6 +83,7 @@ def descubrir_Celda(mapa_Oculto, mapa_Visible):
     
 
     if mapa_Oculto[fila][columna].valor == "M":
+        print('Habia una mina')
         return False
 
     for deltaFila, deltaColumna in posiciones:
@@ -96,7 +97,26 @@ def descubrir_Celda(mapa_Oculto, mapa_Visible):
                 minasAlrededor += 1
 
     mapa_Oculto[fila][columna].valor = f"{minasAlrededor}"
-    mapa_Visible[fila][columna].valor = minasAlrededor
+
+    match minasAlrededor:
+        case 0:
+            mapa_Visible[fila][columna].valor = f" "
+        case 1:
+            mapa_Visible[fila][columna].valor = f"⒈"
+        case 2:
+            mapa_Visible[fila][columna].valor = f"⒉"
+        case 3:
+            mapa_Visible[fila][columna].valor = f"⒊"
+        case 4:
+            mapa_Visible[fila][columna].valor = f"⒋"
+        case 5:
+            mapa_Visible[fila][columna].valor = f"⒌"
+        case 6:
+            mapa_Visible[fila][columna].valor = f"⒍"
+        case 7:
+            mapa_Visible[fila][columna].valor = f"⒎"
+        case 8:
+            mapa_Visible[fila][columna].valor = f"⒏"
 
     return True
 
@@ -131,3 +151,5 @@ q. Salir
                 break
 
             mostrar(mapa_Visible)
+
+        break
